@@ -5,11 +5,14 @@ int main(void)
     /* Stop Watchdog  */
     MAP_WDT_A_holdTimer();
 
+    /* Hardware initialization */
     TI_BalanceCar_Init();
 
-    /* Sleeping when not in use */
+    /* Put your implementation here, in Protocol() or in the Timer32 IRQHandler */
     while(1)
     {
+        if(newLineReceived)
+            Protocol();
         //turnTest(20);
         //runTest(20);
         //printf("Pitchy: %f", Pitchy);

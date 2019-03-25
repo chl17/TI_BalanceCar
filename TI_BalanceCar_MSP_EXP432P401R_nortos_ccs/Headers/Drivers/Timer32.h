@@ -11,6 +11,9 @@
 #include <./Headers/library.h>
 #include <./Headers/Drivers/Encoder_Timer_A.h>
 #include <./Headers/Drivers/Motor_Timer_A.h>
+
+#include <./Headers/Users/Functions.h>
+#include <./Headers/Users/Protocol.h>
 #include <./Headers/Users/Control.h>
 
 void Timer32_init();

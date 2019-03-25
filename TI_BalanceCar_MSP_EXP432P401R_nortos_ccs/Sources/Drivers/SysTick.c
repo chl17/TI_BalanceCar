@@ -16,13 +16,13 @@ void delay_ms(int delay_time){
 }
 
 void SysTick_init(){
-    /* Configuring SysTick to trigger at 3 (MCLK is 3MHz so this will
-             * make it toggle 1M times every 1s) */
+    /* Configuring SysTick to trigger at 24000 (MCLK is 24MHz so this will
+             * make it toggle 1K times every 1s) */
 
-    MAP_CS_initClockSignal(CS_MCLK, CS_MODOSC_SELECT, CS_CLOCK_DIVIDER_1);
-    MAP_SysTick_enableModule();
-    MAP_SysTick_setPeriod(24000);
-    MAP_SysTick_enableInterrupt();
+    CS_initClockSignal(CS_MCLK, CS_MODOSC_SELECT, CS_CLOCK_DIVIDER_1);
+    SysTick_enableModule();
+    SysTick_setPeriod(24000);
+    SysTick_enableInterrupt();
 }
 
 void SysTick_Handler(void)

@@ -41,7 +41,7 @@ void Motor_init(){
             GPIO_PRIMARY_MODULE_FUNCTION);
 }
 
-//Constrain and set PWM
+//Constrain input value and set PWM
 void setPWM(int left,int right){
     int Amplitude = 3000, deadValueLeft = deadValueL, deadValueRight = deadValueR;
     if(left >= 0){
@@ -77,6 +77,6 @@ void setPWM(int left,int right){
         else
             pwmConfigRight.dutyCycle = -right + deadValueRight;
     }
-    MAP_Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfigLeft);
-    MAP_Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfigRight);
+    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfigLeft);
+    Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfigRight);
 }

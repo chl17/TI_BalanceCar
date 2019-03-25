@@ -7,5 +7,6 @@
 #include <./Headers/Drivers/LED_GPIO.h>
 
 void LED_init(){
-    MAP_GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN0);
+    //Red LED on P1.0
+    GPIO_setAsOutputPin(GPIO_PORT_P1, GPIO_PIN0);
 }

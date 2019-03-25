@@ -7,10 +7,12 @@
 #include <./Headers/Drivers/Button_GPIO.h>
 
 void Button_init(){
+    /*Button P1.1*/
     MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN1);
     MAP_GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN1);
     MAP_GPIO_enableInterrupt(GPIO_PORT_P1, GPIO_PIN1);
 
+    /*Button P1.4*/
     MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN4);
     MAP_GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN4);
     MAP_GPIO_enableInterrupt(GPIO_PORT_P1, GPIO_PIN4);
@@ -27,6 +29,7 @@ void PORT1_IRQHandler(void)
     uint32_t status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P1);
     MAP_GPIO_clearInterruptFlag(GPIO_PORT_P1, status);
 
+    //Debug for deadValue
     if (status & GPIO_PIN1)
     {
         if(pwmConfigLeft.dutyCycle == 3000){
@@ -40,6 +43,8 @@ void PORT1_IRQHandler(void)
         MAP_Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfigLeft);
         MAP_Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfigRight);
     }
+
+    //On-Off Switch
     else if(status & GPIO_PIN4){
         if(start == 0){
             start = 1;

@@ -8,7 +8,11 @@
 
 //Start or stop flag
 int start = 0;
+/* Wrong data from the gyroscope may be received to make the car stop,
+     this records the number of data */
 int errorCount = 0;
+/*The expected speed and turnAngle,
+ * your functions should change the two variables to control the car */
 float speed = 0;
 float turnAngle = 0;
 
@@ -19,6 +23,7 @@ void carStop(){
     MAP_Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfigRight);
 }
 
+//Balance PID
 int balance(){
     float Bias, kp = Balance_Kp, kd = Balance_Kd;
     int balance;
@@ -40,6 +45,7 @@ int balance(){
     return balance;
 }
 
+//Velocity PID
 int velocity(){
     static float Velocity, Encoder_Least, Encoder, Encoder_Integral;
     float kp = Velocity_Kp, ki = kp / 200;
@@ -55,7 +61,7 @@ int velocity(){
     return Velocity;
 }
 
-
+//Turning PID
 int turn(){
     float Turn, kp = Turn_Kp, Bias;
     Bias = Yawz - turnAngle;

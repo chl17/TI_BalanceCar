@@ -39,32 +39,33 @@ const eUSCI_UART_Config uartConfig_Gyro =
 
 void UART_init(){
     /* Selecting P3.2 and P3.3 in UART mode */
-    MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P2,
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P2,
             GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
 
     //![Simple UART Example]
     /* Configuring UART Module */
-    MAP_UART_initModule(EUSCI_A1_BASE, &uartConfig_Gyro);
+    UART_initModule(EUSCI_A1_BASE, &uartConfig_Gyro);
 
     /* Enable UART module */
-    MAP_UART_enableModule(EUSCI_A1_BASE);
+    UART_enableModule(EUSCI_A1_BASE);
 
     /* Enabling interrupts */
-    MAP_UART_enableInterrupt(EUSCI_A1_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT);
-    MAP_Interrupt_enableInterrupt(INT_EUSCIA1);
+    UART_enableInterrupt(EUSCI_A1_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT);
+    Interrupt_enableInterrupt(INT_EUSCIA1);
 }
 
 /* EUSCI A1 UART ISR  */
 void EUSCIA1_IRQHandler(void)
 {
-    uint32_t status = MAP_UART_getEnabledInterruptStatus(EUSCI_A1_BASE);
+    uint32_t status = UART_getEnabledInterruptStatus(EUSCI_A1_BASE);
 
-    MAP_UART_clearInterruptFlag(EUSCI_A1_BASE, status);
+    UART_clearInterruptFlag(EUSCI_A1_BASE, status);
 
     if(status & EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG){
         uint8_t receivedByte;
-        receivedByte = MAP_UART_receiveData(EUSCI_A1_BASE);
+        receivedByte = UART_receiveData(EUSCI_A1_BASE);
 
+        //Omega-W
         if(receivedByte == 0x52){
             receivedStartByteG52 = 1;
             receivedByteCountG52 = 0;
@@ -85,6 +86,7 @@ void EUSCIA1_IRQHandler(void)
             }
         }
 
+        //Pitch angle
         if(receivedByte == 0x53){
 
             receivedStartByteG53 = 1;

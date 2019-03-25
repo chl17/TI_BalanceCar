@@ -7,6 +7,7 @@
 
 #include <./Headers/TI_BalanceCar.h>
 
+//Initialize all modules
 void TI_BalanceCar_Init(){
     SysTick_init();
     LED_init();
@@ -14,7 +15,6 @@ void TI_BalanceCar_Init(){
     Encoder_init();
     UART_init();
     Button_init();
-    LED_init();
     Timer32_init();
     Interrupt_init();
 }

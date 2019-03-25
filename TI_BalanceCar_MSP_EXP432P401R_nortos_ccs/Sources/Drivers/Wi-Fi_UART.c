@@ -7,10 +7,15 @@
 #include <./Headers/Drivers/Wi-Fi_UART.h>
 
 //Variables in UART IRQHandler to handle data of Wi-fi UART module
+//Received status flag
 uint8_t newLineReceived = 0;
+//Data string
 uint8_t receivedString[100] = {0};
+//Start byte(e.g. '$') received flag
 int receivedStartByte = 0;
+//Number of bytes received in current series of data string
 int receivedByteCount = 0;
+//Valid data string length
 int receivedStringLength = 0;
 
 //![Simple UART Config]
@@ -32,36 +37,38 @@ const eUSCI_UART_Config uartConfig =
         EUSCI_A_UART_MODE,                       // UART mode
         EUSCI_A_UART_OVERSAMPLING_BAUDRATE_GENERATION  // Oversampling
 };
+//![Simple UART Config]
 
 void WiFi_init(){
     /* Selecting P3.2 and P3.3 in UART mode */
-    MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P3,
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P3,
             GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
 
     //![Simple UART Example]
     /* Configuring UART Module */
-    MAP_UART_initModule(EUSCI_A2_BASE, &uartConfig);
+    UART_initModule(EUSCI_A2_BASE, &uartConfig);
 
     /* Enable UART module */
-    MAP_UART_enableModule(EUSCI_A2_BASE);
+    UART_enableModule(EUSCI_A2_BASE);
 
     /* Enabling interrupts */
-    MAP_UART_enableInterrupt(EUSCI_A2_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT);
-    MAP_Interrupt_enableInterrupt(INT_EUSCIA2);
+    UART_enableInterrupt(EUSCI_A2_BASE, EUSCI_A_UART_RECEIVE_INTERRUPT);
+    Interrupt_enableInterrupt(INT_EUSCIA2);
 }
 
 
 /* EUSCI A2 UART ISR  */
 void EUSCIA2_IRQHandler(void)
 {
-    uint32_t status = MAP_UART_getEnabledInterruptStatus(EUSCI_A2_BASE);
+    uint32_t status = UART_getEnabledInterruptStatus(EUSCI_A2_BASE);
 
-    MAP_UART_clearInterruptFlag(EUSCI_A2_BASE, status);
+    UART_clearInterruptFlag(EUSCI_A2_BASE, status);
 
     if(status & EUSCI_A_UART_RECEIVE_INTERRUPT_FLAG){
-        //MAP_UART_transmitData(EUSCI_A2_BASE, MAP_UART_receiveData(EUSCI_A2_BASE));
+        //UART_transmitData(EUSCI_A2_BASE, UART_receiveData(EUSCI_A2_BASE));
         uint8_t receivedByte;
-        receivedByte = MAP_UART_receiveData(EUSCI_A2_BASE);
+        receivedByte = UART_receiveData(EUSCI_A2_BASE);
+        //The data string should begin with '$' and end with '\n' to be caught
         if(receivedByte == '$'){
             receivedStartByte = 1;
             receivedByteCount = 0;
@@ -81,7 +88,6 @@ void EUSCIA2_IRQHandler(void)
             newLineReceived = 0;
         }
     }
-
 }
 
 int fputc(int _c, register FILE *_fp){
@@ -102,7 +108,3 @@ int fputs(const char *_ptr, register FILE *_fp){
 
     return len;
 }
-
-//![Simple UART Config]
-
-

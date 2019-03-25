@@ -29,22 +29,22 @@ const Timer_A_CaptureModeConfig captureModeConfig =
 void Encoder_init(){
     /* Configuring GPIO2.4 GPIO5.6 as peripheral output for PWM  and P2.5 P5.7 for timer
              * capture */
-    MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P2, GPIO_PIN5,
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P2, GPIO_PIN5,
             GPIO_PRIMARY_MODULE_FUNCTION);
-    MAP_GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P5, GPIO_PIN7,
+    GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P5, GPIO_PIN7,
             GPIO_PRIMARY_MODULE_FUNCTION);
 
     //Phase B to determine forward or backward
-    MAP_GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN4);
-    MAP_GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN5);
+    GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN4);
+    GPIO_setAsInputPin(GPIO_PORT_P5, GPIO_PIN5);
 
     /* Configuring Capture Mode */
-    MAP_Timer_A_initCapture(TIMER_A0_BASE, &captureModeConfig);
-    MAP_Timer_A_initCapture(TIMER_A2_BASE, &captureModeConfig);
+    Timer_A_initCapture(TIMER_A0_BASE, &captureModeConfig);
+    Timer_A_initCapture(TIMER_A2_BASE, &captureModeConfig);
 
     /* Enabling interrupts */
-    MAP_Interrupt_enableInterrupt(INT_TA0_N);
-    MAP_Interrupt_enableInterrupt(INT_TA2_N);
+    Interrupt_enableInterrupt(INT_TA0_N);
+    Interrupt_enableInterrupt(INT_TA2_N);
 }
 
 //******************************************************************************
@@ -54,9 +54,9 @@ void Encoder_init(){
 //******************************************************************************
 void TA0_N_IRQHandler(void)
 {
-    MAP_Timer_A_clearCaptureCompareInterrupt(TIMER_A0_BASE,
+    Timer_A_clearCaptureCompareInterrupt(TIMER_A0_BASE,
             TIMER_A_CAPTURECOMPARE_REGISTER_2);
-
+    //Left motor Phase B
     advanceOrBackLeft = GPIO_getInputPinValue(GPIO_PORT_P5, GPIO_PIN4);
     countLeft++;
 
@@ -64,9 +64,9 @@ void TA0_N_IRQHandler(void)
 
 void TA2_N_IRQHandler(void)
 {
-    MAP_Timer_A_clearCaptureCompareInterrupt(TIMER_A2_BASE,
+    Timer_A_clearCaptureCompareInterrupt(TIMER_A2_BASE,
             TIMER_A_CAPTURECOMPARE_REGISTER_2);
-
+    //Right motor Phase B
     advanceOrBackRight = GPIO_getInputPinValue(GPIO_PORT_P5, GPIO_PIN5);
     countRight++;
 
