@@ -13,7 +13,8 @@ void TI_BalanceCar_Init(){
     LED_init();
     Motor_init();
     Encoder_init();
-    UART_init();
+    Gyroscope_init();
+    WiFi_init();
     Button_init();
     Timer32_init();
     Interrupt_init();

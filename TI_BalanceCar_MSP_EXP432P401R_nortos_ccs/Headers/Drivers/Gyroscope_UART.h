@@ -13,7 +13,7 @@
 //Pitch angle W-omega
 extern float Rollx, Pitchy, Yawz, Wx, Wy, Wz;
 
-void UART_init();
+void Gyroscope_init();
 /* EUSCI A1 UART ISR  */
 void EUSCIA1_IRQHandler(void);
 

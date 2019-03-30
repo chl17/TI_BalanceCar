@@ -37,7 +37,7 @@ const eUSCI_UART_Config uartConfig_Gyro =
         EUSCI_A_UART_OVERSAMPLING_BAUDRATE_GENERATION  // Oversampling
 };
 
-void UART_init(){
+void Gyroscope_init(){
     /* Selecting P3.2 and P3.3 in UART mode */
     GPIO_setAsPeripheralModuleFunctionInputPin(GPIO_PORT_P2,
             GPIO_PIN2 | GPIO_PIN3, GPIO_PRIMARY_MODULE_FUNCTION);
