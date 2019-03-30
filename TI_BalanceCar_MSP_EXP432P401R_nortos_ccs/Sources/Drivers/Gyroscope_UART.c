@@ -19,7 +19,7 @@ float Rollx, Pitchy, Yawz, Wx, Wy, Wz;
 
 //![Simple UART Config]
 /* UART Configuration Parameter. These are the configuration parameters to
- * make the eUSCI A UART module to operate with a 9600 baud rate. These
+ * make the eUSCI A UART module to operate with a 115200 baud rate. These
  * values were calculated using the online calculator that TI provides
  * at:
  *http://software-dl.ti.com/msp430/msp430_public_sw/mcu/msp430/MSP430BaudRateConverter/index.html
