@@ -13,6 +13,7 @@ int main(void)
     {
         if(newLineReceived)
             Protocol();
+
         //turnTest(20);
         //runTest(20);
         //printf("Pitchy: %f", Pitchy);
