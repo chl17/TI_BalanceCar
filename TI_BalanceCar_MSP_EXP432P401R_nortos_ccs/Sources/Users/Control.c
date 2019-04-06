@@ -19,8 +19,8 @@ float turnAngle = 0;
 void carStop(){
     pwmConfigLeft.dutyCycle = 0;
     pwmConfigRight.dutyCycle = 0;
-    MAP_Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfigLeft);
-    MAP_Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfigRight);
+    Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfigLeft);
+    Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfigRight);
 }
 
 //Balance PID

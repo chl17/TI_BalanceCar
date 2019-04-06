@@ -8,17 +8,17 @@
 
 void Button_init(){
     /*Button P1.1*/
-    MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN1);
-    MAP_GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN1);
-    MAP_GPIO_enableInterrupt(GPIO_PORT_P1, GPIO_PIN1);
+    GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN1);
+    GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN1);
+    GPIO_enableInterrupt(GPIO_PORT_P1, GPIO_PIN1);
 
     /*Button P1.4*/
-    MAP_GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN4);
-    MAP_GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN4);
-    MAP_GPIO_enableInterrupt(GPIO_PORT_P1, GPIO_PIN4);
+    GPIO_setAsInputPinWithPullUpResistor(GPIO_PORT_P1, GPIO_PIN4);
+    GPIO_clearInterruptFlag(GPIO_PORT_P1, GPIO_PIN4);
+    GPIO_enableInterrupt(GPIO_PORT_P1, GPIO_PIN4);
 
     /* Enabling interrupts */
-    MAP_Interrupt_enableInterrupt(INT_PORT1);
+    Interrupt_enableInterrupt(INT_PORT1);
 }
 
 /* Port1 ISR - This ISR will progressively step up the duty cycle of the PWM(P1.1) and toggle start flag(P1.4)
@@ -26,8 +26,8 @@ void Button_init(){
  */
 void PORT1_IRQHandler(void)
 {
-    uint32_t status = MAP_GPIO_getEnabledInterruptStatus(GPIO_PORT_P1);
-    MAP_GPIO_clearInterruptFlag(GPIO_PORT_P1, status);
+    uint32_t status = GPIO_getEnabledInterruptStatus(GPIO_PORT_P1);
+    GPIO_clearInterruptFlag(GPIO_PORT_P1, status);
 
     //Debug for deadValue
     if (status & GPIO_PIN1)
@@ -40,8 +40,8 @@ void PORT1_IRQHandler(void)
             pwmConfigLeft.dutyCycle += 10;
             pwmConfigRight.dutyCycle += 10;
         }
-        MAP_Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfigLeft);
-        MAP_Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfigRight);
+        Timer_A_generatePWM(TIMER_A0_BASE, &pwmConfigLeft);
+        Timer_A_generatePWM(TIMER_A2_BASE, &pwmConfigRight);
     }
 
     //On-Off Switch

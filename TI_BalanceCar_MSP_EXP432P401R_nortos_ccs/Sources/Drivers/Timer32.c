@@ -35,7 +35,7 @@ void T32_INT1_IRQHandler(void)
     }
     lastCountLeft = countLeft;
 
-    //Calculate the rotational speed of left motor
+    //Calculate the rotational speed of right motor
     tempSpeedN = (countRight - lastCountRight) / 15000.0 * 200.0;
     if(tempSpeedN >= 0){
         if(advanceOrBackRight == 1)
