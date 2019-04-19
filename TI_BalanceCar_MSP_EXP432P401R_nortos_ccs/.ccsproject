@@ -15,4 +15,5 @@
 	<templateProperties value="id=empty_MSP_EXP432P401R_nortos_ccs.projectspec.empty_MSP_EXP432P401R_nortos_ccs,buildProfile=release,isHybrid=true"/>
 	<origin value="C:\Users\haoli\workspace_v8\empty\ccs\empty_MSP_EXP432P401R_nortos_ccs.projectspec"/>
 	<filesToOpen value=""/>
+	<isTargetManual value="false"/>
 </projectOptions>
